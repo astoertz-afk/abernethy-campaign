@@ -1,2 +1,2 @@
 # abernethy-campaign
-this is a website for a campus beautification fundraising campaign
+this is a website for an Abernethy campus beautification fundraising campaign

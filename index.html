@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abernethy 2125</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f8f6f1;
+      --orange: #ff5c1a;
+      --blue: #1a3fff;
+      --yellow: #ffd000;
+      --green: #1e6b3a;
+      --cream: #f8f6f1;
+    }
+
+    body {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .serif { font-family: 'Instrument Serif', Georgia, serif; }
+
+    a { color: inherit; }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 1.5rem; height: 56px;
+      background: var(--black);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 0.6rem;
+      color: var(--white); font-weight: 700; font-size: 0.9rem;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .nav-logo .logo-box {
+      width: 38px; height: 38px; background: var(--cream); border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-logo .logo-box img { height: 28px; filter: none; }
+    nav ul { list-style: none; display: flex; gap: 1.5rem; }
+    nav ul a {
+      color: rgba(248,246,241,0.6); text-decoration: none;
+      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; transition: color 0.15s;
+    }
+    nav ul a:hover { color: var(--yellow); }
+    .btn-donate {
+      background: var(--orange); color: var(--white); border: none;
+      padding: 0.55rem 1.4rem; border-radius: 6px; font-weight: 700;
+      font-size: 0.8rem; text-decoration: none; text-transform: uppercase;
+      letter-spacing: 0.06em; transition: background 0.15s;
+    }
+    .btn-donate:hover { background: #e04e10; }
+
+    /* ---- HERO ---- */
+    .hero {
+      margin-top: 56px; min-height: calc(100vh - 56px);
+      display: grid; grid-template-rows: 1fr auto;
+      background: var(--black); color: var(--white);
+      position: relative; overflow: hidden;
+    }
+    .hero-top {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 0;
+    }
+    .hero-text {
+      padding: 5rem 3rem 3rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .hero-text h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 0.95; font-weight: 400;
+      margin-bottom: 1.5rem;
+    }
+    .hero-text h1 .pop {
+      color: var(--orange);
+      font-style: italic;
+    }
+    .hero-text p {
+      font-size: 1.05rem; color: rgba(248,246,241,0.65);
+      max-width: 420px; line-height: 1.6; margin-bottom: 2rem;
+    }
+    .hero-buttons { display: flex; gap: 0.75rem; }
+    .hero-buttons a {
+      padding: 0.85rem 2rem; border-radius: 6px; text-decoration: none;
+      font-weight: 700; font-size: 0.85rem; text-transform: uppercase;
+      letter-spacing: 0.05em; transition: transform 0.15s;
+    }
+    .hero-buttons a:hover { transform: translateY(-1px); }
+    .hero-buttons .primary { background: var(--orange); color: var(--white); }
+    .hero-buttons .secondary {
+      background: transparent; color: var(--white);
+      border: 2px solid rgba(248,246,241,0.25);
+    }
+    .hero-photo { position: relative; }
+    .hero-photo .ph { position: absolute; inset: 0; border-radius: 0; }
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      border-top: 1px solid rgba(248,246,241,0.1);
+    }
+    .hero-stat {
+      padding: 1.5rem; text-align: center;
+      border-right: 1px solid rgba(248,246,241,0.1);
+    }
+    .hero-stat:last-child { border-right: none; }
+    .hero-stat .n {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem; color: var(--yellow);
+    }
+    .hero-stat .l {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em;
+      color: rgba(248,246,241,0.45); font-weight: 600; margin-top: 0.2rem;
+    }
+
+    /* ---- PHOTO PLACEHOLDER ---- */
+    .ph {
+      background: #d5d0c8; display: flex; align-items: center;
+      justify-content: center; color: #9a9488; font-size: 0.75rem;
+      font-weight: 500; text-align: center; padding: 1rem;
+      position: relative; overflow: hidden;
+    }
+    .ph img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    /* ---- FULL BLEED PHOTO + TEXT OVERLAY ---- */
+    .bleed {
+      position: relative; min-height: 500px;
+      display: flex; align-items: flex-end;
+    }
+    .bleed .ph { position: absolute; inset: 0; }
+    .bleed-overlay {
+      position: relative; z-index: 1; width: 100%;
+      padding: 3rem;
+      background: linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 100%);
+    }
+    .bleed-overlay h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: var(--white); font-weight: 400; max-width: 700px;
+    }
+    .bleed-overlay h2 em { color: var(--yellow); font-style: italic; }
+
+    /* ---- COLOR BLOCK SECTIONS ---- */
+    .block { padding: 5rem 3rem; }
+    .block-black { background: var(--black); color: var(--white); }
+    .block-orange { background: var(--orange); color: var(--white); }
+    .block-cream { background: var(--cream); color: var(--black); }
+    .block-green { background: var(--green); color: var(--white); }
+
+    .inner { max-width: 1100px; margin: 0 auto; }
+
+    /* ---- ABOUT STRIP ---- */
+    .about-strip {
+      display: grid; grid-template-columns: 1fr 1fr; min-height: 450px;
+    }
+    .about-strip .text-side {
+      padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center;
+    }
+    .about-strip h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 400;
+      margin-bottom: 1.5rem; line-height: 1.1;
+    }
+    .about-strip p {
+      font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; opacity: 0.75;
+    }
+    .about-strip .tax {
+      font-size: 0.8rem; opacity: 0.5; margin-top: 1rem; font-style: italic;
+    }
+
+    /* ---- PHOTO MOSAIC ---- */
+    .mosaic {
+      display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 1fr 1fr;
+      min-height: 500px;
+    }
+    .mosaic .ph:first-child { grid-row: span 2; }
+
+    /* ---- VALUES ---- */
+    .values-bar {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+    }
+    .val {
+      padding: 3rem 2rem; text-align: center;
+      border-right: 1px solid rgba(248,246,241,0.15);
+    }
+    .val:last-child { border: none; }
+    .val h3 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.2rem; font-weight: 400; margin-bottom: 0.5rem;
+    }
+    .val p { font-size: 0.85rem; opacity: 0.6; max-width: 280px; margin: 0 auto; }
+
+    /* ---- FUNDS ---- */
+    .funds-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    }
+    .fund {
+      padding: 2.5rem 1.5rem; text-align: center;
+      border-right: 1px solid rgba(248,246,241,0.1);
+    }
+    .fund:last-child { border: none; }
+    .fund h3 {
+      font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .fund p { font-size: 0.8rem; opacity: 0.55; }
+
+    /* ---- GOAL ---- */
+    .goal {
+      text-align: center; padding: 5rem 2rem;
+    }
+    .goal .amount {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(6rem, 15vw, 12rem);
+      line-height: 0.85; color: var(--black);
+    }
+    .goal .label {
+      font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.15em;
+      font-weight: 700; color: var(--orange); margin-bottom: 1rem;
+    }
+    .goal .deadline {
+      font-size: 1rem; opacity: 0.5; margin-top: 1.5rem;
+    }
+
+    /* ---- TIERS ---- */
+    .tiers-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+    }
+    .tier-cell {
+      padding: 3rem 2rem;
+      border-right: 1px solid rgba(10,10,10,0.08);
+      display: flex; flex-direction: column;
+    }
+    .tier-cell:last-child { border: none; }
+    .tier-cell.highlight {
+      background: var(--black); color: var(--white);
+    }
+    .tier-label {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em;
+      font-weight: 700; color: var(--orange); margin-bottom: 0.4rem;
+    }
+    .tier-cell.highlight .tier-label { color: var(--yellow); }
+    .tier-amount {
+      font-family: 'Instrument Serif', serif; font-size: 2rem;
+      font-weight: 400; margin-bottom: 1.5rem;
+    }
+    .tier-cell ul {
+      list-style: none; font-size: 0.85rem; flex: 1;
+    }
+    .tier-cell ul li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(10,10,10,0.06);
+    }
+    .tier-cell.highlight ul li { border-color: rgba(248,246,241,0.08); }
+    .tier-cell ul li:last-child { border: none; }
+    .tier-cell .tier-cta {
+      margin-top: 1.5rem;
+      display: inline-block; padding: 0.7rem 1.5rem; border-radius: 6px;
+      text-decoration: none; font-weight: 700; font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      background: var(--black); color: var(--white);
+      transition: transform 0.15s; text-align: center;
+    }
+    .tier-cell.highlight .tier-cta { background: var(--orange); }
+    .tier-cell .tier-cta:hover { transform: translateY(-1px); }
+
+    .major-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border-top: 3px solid var(--black);
+    }
+    .major-cell {
+      padding: 2rem; text-align: center;
+      border-right: 1px solid rgba(10,10,10,0.08);
+    }
+    .major-cell:last-child { border: none; }
+    .major-cell .tier-label { margin-bottom: 0.25rem; }
+    .major-cell .tier-amount { margin-bottom: 0; font-size: 1.6rem; }
+
+    /* ---- SUPPORTERS ---- */
+    .supporters-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+      border: 1px solid rgba(10,10,10,0.08); border-radius: 4px;
+      margin-top: 2.5rem;
+    }
+    .supporter-slot {
+      aspect-ratio: 2/1; display: flex; align-items: center; justify-content: center;
+      border-right: 1px solid rgba(10,10,10,0.06);
+      border-bottom: 1px solid rgba(10,10,10,0.06);
+      font-size: 0.75rem; color: #bbb; font-weight: 500;
+    }
+    .supporter-slot:nth-child(4n) { border-right: none; }
+    .supporter-slot:nth-last-child(-n+4) { border-bottom: none; }
+
+    /* ---- CTA SPLIT ---- */
+    .cta-split {
+      display: grid; grid-template-columns: 1fr 1fr; min-height: 500px;
+    }
+    .cta-text {
+      background: var(--orange); color: var(--white);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 4rem 3rem;
+    }
+    .cta-text h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.5rem, 4.5vw, 3.5rem);
+      font-weight: 400; font-style: italic;
+      margin-bottom: 1rem; line-height: 1.05;
+    }
+    .cta-text p { opacity: 0.8; font-size: 1rem; margin-bottom: 0.5rem; line-height: 1.6; }
+    .cta-text .dl { font-weight: 700; opacity: 1; margin-bottom: 2rem; }
+    .cta-buttons { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .cta-buttons a {
+      padding: 0.85rem 2rem; border-radius: 6px; text-decoration: none;
+      font-weight: 700; font-size: 0.85rem; text-transform: uppercase;
+      letter-spacing: 0.05em; transition: transform 0.15s;
+    }
+    .cta-buttons a:hover { transform: translateY(-1px); }
+    .cta-buttons .w { background: var(--white); color: var(--black); }
+    .cta-buttons .o { background: transparent; border: 2px solid rgba(255,255,255,0.4); color: var(--white); }
+
+    /* ---- FOOTER ---- */
+    footer {
+      background: var(--black); color: rgba(248,246,241,0.4);
+      padding: 3rem; display: flex; justify-content: space-between;
+      align-items: center; font-size: 0.8rem;
+    }
+    footer img { height: 40px; filter: brightness(0) invert(1); }
+    footer a { color: var(--yellow); text-decoration: none; }
+
+    /* ---- PHOTO STRIP ---- */
+    .photo-strip {
+      display: grid; grid-template-columns: repeat(4, 1fr); min-height: 280px;
+    }
+    .photo-strip .ph { min-height: 280px; }
+
+    /* ---- PHOTO PAIR ---- */
+    .photo-pair {
+      display: grid; grid-template-columns: 1fr 1fr; min-height: 400px;
+    }
+    .photo-pair .ph { min-height: 400px; }
+
+    /* ---- GREATSCHOOLS BADGE ---- */
+    .gs-badge {
+      display: flex; align-items: center; justify-content: center; gap: 1rem;
+      padding: 1.5rem 2rem; background: var(--black);
+    }
+    .gs-badge img { height: 50px; }
+    .gs-badge span {
+      color: var(--white); font-weight: 700; font-size: 0.85rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 900px) {
+      nav ul { display: none; }
+      .hero-top { grid-template-columns: 1fr; }
+      .hero-photo { min-height: 350px; position: relative; }
+      .hero-photo .ph { position: absolute; inset: 0; }
+      .hero-stats { grid-template-columns: repeat(3, 1fr); }
+      .hero-stat:nth-child(4), .hero-stat:nth-child(5) { display: none; }
+      .hero-text { padding: 4rem 2rem 3rem; }
+      .about-strip { grid-template-columns: 1fr; }
+      .mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; min-height: auto; }
+      .mosaic .ph { min-height: 200px; }
+      .mosaic .ph:first-child { grid-row: span 1; }
+      .values-bar { grid-template-columns: 1fr; }
+      .val { border-right: none; border-bottom: 1px solid rgba(248,246,241,0.15); }
+      .funds-grid { grid-template-columns: 1fr 1fr; }
+      .fund { border-bottom: 1px solid rgba(248,246,241,0.1); }
+      .tiers-row, .major-row { grid-template-columns: 1fr; }
+      .tier-cell { border-right: none; border-bottom: 1px solid rgba(10,10,10,0.08); }
+      .major-cell { border-right: none; border-bottom: 1px solid rgba(10,10,10,0.08); }
+      .supporters-grid { grid-template-columns: 1fr 1fr; }
+      .supporter-slot:nth-child(2n) { border-right: none; }
+      .supporter-slot:nth-child(4n) { border-right: 1px solid rgba(10,10,10,0.06); }
+      .cta-split { grid-template-columns: 1fr; }
+      .cta-text { padding: 3rem 2rem; }
+      .bleed { min-height: 350px; }
+      .photo-strip { grid-template-columns: 1fr 1fr; }
+      .photo-strip .ph { min-height: 200px; }
+      .photo-pair { grid-template-columns: 1fr; }
+      .photo-pair .ph { min-height: 280px; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .block { padding: 3.5rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-box"><img src="images/logo.png" alt="Abernethy"></div>
+      <span>Abernethy 2125</span>
+    </div>
+    <ul>
+      <li><a href="#about">Story</a></li>
+      <li><a href="#fund">The Fund</a></li>
+      <li><a href="#tiers">Give</a></li>
+      <li><a href="#supporters">Partners</a></li>
+    </ul>
+    <a href="https://abernethyelementaryschool.betterworld.org/campaigns/general-pta-support" class="btn-donate" target="_blank" rel="noopener">Donate</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-top">
+      <div class="hero-text">
+        <h1>100 years of <span class="pop">growing up</span> together.</h1>
+        <p>Abernethy Elementary has been the heart of SE Portland since 1925. Now we're raising $100K to build the next century. Join us.</p>
+        <div class="hero-buttons">
+          <a href="https://abernethyelementaryschool.betterworld.org/campaigns/general-pta-support" class="primary" target="_blank" rel="noopener">Donate Now</a>
+          <a href="#tiers" class="secondary">Sponsorship Tiers</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <div class="ph"><img src="images/hero-kids-running.png" alt="Kids running at Abernethy field day"></div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="n">286</div><div class="l">Students</div></div>
+      <div class="hero-stat"><div class="n">2,300</div><div class="l">Alumni</div></div>
+      <div class="hero-stat"><div class="n">21K</div><div class="l">Reach</div></div>
+      <div class="hero-stat"><div class="n">150+</div><div class="l">Volunteers</div></div>
+      <div class="hero-stat"><div class="n">100</div><div class="l">Years</div></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <div class="about-strip" id="about">
+    <div class="text-side" style="background: var(--cream);">
+      <h2>The cornerstone of Ladd's Addition.</h2>
+      <p>Walk through the doors and you feel it. Teachers who stay for decades. Parents who know each other by name. Kids who actually want to be here.</p>
+      <p>Art, music, recess in the rain. The kind of school people move to the neighborhood for. Abernethy has been the heart of this community since 1925.</p>
+      <p class="tax">Abernethy PTA is a 501(c)(3). All donations are tax-deductible.</p>
+    </div>
+    <div class="ph"><img src="images/school-sign-daffodils.jpg" alt="Abernethy School sign with spring daffodils"></div>
+  </div>
+
+  <!-- GREATSCHOOLS + CENTENNIAL -->
+  <div class="gs-badge">
+
+    <span>Rated 10/10 on GreatSchools</span>
+    <span style="opacity:0.3; margin:0 1rem;">|</span>
+    <img src="images/centennial-eagle.png" alt="Abernethy 100 Years" style="height:55px; border-radius:4px;">
+    <span>Celebrating 100 Years</span>
+  </div>
+
+  <!-- MOSAIC -->
+  <div class="mosaic">
+    <div class="ph"><img src="images/neighborhood-mural.png" alt="Neighborhood mural"></div>
+    <div class="ph"><img src="images/school-garden.png" alt="School garden"></div>
+    <div class="ph"><img src="images/handstand-event.png" alt="Fun at school event"></div>
+    <div class="ph"><img src="images/bike-group.png" alt="Bike group in neighborhood"></div>
+    <div class="ph"><img src="images/kid-biking.png" alt="Kid biking to school"></div>
+  </div>
+
+  <!-- VALUES -->
+  <div class="values-bar block-black">
+    <div class="val">
+      <h3 class="serif">Safe</h3>
+      <p>Every kid belongs here. Full stop.</p>
+    </div>
+    <div class="val">
+      <h3 class="serif">Respectful</h3>
+      <p>Kindness modeled by adults, practiced by kids.</p>
+    </div>
+    <div class="val">
+      <h3 class="serif">Fun</h3>
+      <p>Messy art. Field day in the rain. Childhood done right.</p>
+    </div>
+  </div>
+
+  <!-- PHOTO STRIP: NEIGHBORHOOD LIFE -->
+  <div class="photo-strip">
+    <div class="ph"><img src="images/chimney-swifts.png" alt="Chimney swifts at Chapman"></div>
+    <div class="ph"><img src="images/walking-bus.png" alt="Walking school bus"></div>
+    <div class="ph"><img src="images/soccer-field.png" alt="School soccer field"></div>
+    <div class="ph"><img src="images/campus-aerial.png" alt="Aerial view of Abernethy campus"></div>
+  </div>
+
+  <!-- CENTENNIAL BLEED -->
+  <div class="bleed">
+    <div class="ph"><img src="images/group-colorful.png" alt="Abernethy community group photo"></div>
+    <div class="bleed-overlay">
+      <h2>Abernethy turned <em>100</em> in 2025. We threw a hell of a party.</h2>
+    </div>
+  </div>
+
+  <!-- WHAT THE MONEY FUNDS -->
+  <section class="block block-green" id="fund">
+    <div class="inner" style="text-align:center; margin-bottom: 3rem;">
+      <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.15em; font-weight:700; color:var(--yellow); margin-bottom:0.75rem;">Where It Goes</p>
+      <h2 class="serif" style="font-size:clamp(2rem,4vw,3rem); font-weight:400;">Every dollar funds <em style='color:var(--yellow)'>real things</em> for real kids.</h2>
+    </div>
+    <div class="funds-grid">
+      <div class="fund">
+        <h3>Playground</h3>
+        <p>New equipment, safer surfaces, accessible spaces</p>
+      </div>
+      <div class="fund">
+        <h3>Classroom Tech</h3>
+        <p>Devices and tools teachers actually need</p>
+      </div>
+      <div class="fund">
+        <h3>Arts & Music</h3>
+        <p>Instruments, supplies, visiting artists</p>
+      </div>
+      <div class="fund">
+        <h3>Teacher Support</h3>
+        <p>Grants, development, appreciation</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAYGROUND RENDERS -->
+  <div class="photo-pair">
+    <div class="ph"><img src="images/playground-aerial.jpg" alt="New playground design - aerial view"></div>
+    <div class="ph"><img src="images/playground-closeup.jpg" alt="New playground design - kids playing"></div>
+  </div>
+
+  <!-- GOAL -->
+  <section class="goal block-cream">
+    <div class="label">Our Goal</div>
+    <div class="amount">$100K</div>
+    <div class="deadline">Join us before <strong>July 2026</strong></div>
+  </section>
+
+  <!-- PHOTO BLEED 2 -->
+  <div class="bleed">
+    <div class="ph"><img src="images/community-dusk.png" alt="Abernethy community gathering at dusk"></div>
+    <div class="bleed-overlay">
+      <h2>This is what <em>showing up</em> looks like.</h2>
+    </div>
+  </div>
+
+  <!-- TIERS -->
+  <section class="block block-cream" id="tiers" style="padding-bottom:0;">
+    <div class="inner" style="text-align:center; margin-bottom:3rem;">
+      <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.15em; font-weight:700; color:var(--orange); margin-bottom:0.75rem;">How to Support</p>
+      <h2 class="serif" style="font-size:clamp(2rem,4vw,3rem); font-weight:400;">Pick your level. Every one matters.</h2>
+    </div>
+  </section>
+  <div class="tiers-row">
+    <div class="tier-cell">
+      <div class="tier-label">Advocate</div>
+      <div class="tier-amount">$50 &ndash; $249</div>
+      <ul>
+        <li>Name on Abernethy website</li>
+        <li>Community newsletter mention</li>
+        <li>Window sticker</li>
+      </ul>
+      <a href="https://abernethyelementaryschool.betterworld.org/campaigns/general-pta-support" class="tier-cta" target="_blank" rel="noopener">Give</a>
+    </div>
+    <div class="tier-cell highlight">
+      <div class="tier-label">Ally</div>
+      <div class="tier-amount">$250 &ndash; $999</div>
+      <ul>
+        <li>Everything in Advocate</li>
+        <li>Logo in print + online</li>
+        <li>Social media recognition</li>
+        <li>Gift in school catalog</li>
+      </ul>
+      <a href="https://abernethyelementaryschool.betterworld.org/campaigns/general-pta-support" class="tier-cta" target="_blank" rel="noopener">Give</a>
+    </div>
+    <div class="tier-cell">
+      <div class="tier-label">Patron</div>
+      <div class="tier-amount">$1,000+</div>
+      <ul>
+        <li>Everything in Ally</li>
+        <li>Premier logo placement</li>
+        <li>Featured partner spotlight</li>
+        <li>Event naming / co-branding</li>
+      </ul>
+      <a href="https://abernethyelementaryschool.betterworld.org/campaigns/general-pta-support" class="tier-cta" target="_blank" rel="noopener">Give</a>
+    </div>
+  </div>
+  <div class="major-row">
+    <div class="major-cell">
+      <div class="tier-label">Champion</div>
+      <div class="tier-amount">$2.5K &ndash; $10K</div>
+    </div>
+    <div class="major-cell">
+      <div class="tier-label">Leader</div>
+      <div class="tier-amount">$10K &ndash; $50K</div>
+    </div>
+    <div class="major-cell">
+      <div class="tier-label">Visionary</div>
+      <div class="tier-amount">$100K</div>
+    </div>
+  </div>
+  <div style="background:var(--cream); text-align:center; padding:1.5rem 2rem 4rem;">
+    <p style="font-size:0.85rem; color:#888;">Major gift? <a href="mailto:hello@abernethy2125.org" style="color:var(--orange); font-weight:700; text-decoration:none;">Let's talk.</a></p>
+  </div>
+
+  <!-- SUPPORTERS -->
+  <section class="block block-cream" id="supporters" style="padding-top:0;">
+    <div class="inner">
+      <h2 class="serif" style="font-size:clamp(1.8rem,3vw,2.5rem); font-weight:400; margin-bottom:0.4rem;">Our Partners</h2>
+      <p style="color:#888; font-size:0.95rem;">These people are building Abernethy's next century.</p>
+      <div class="supporters-grid">
+        <div class="supporter-slot">Your name here</div>
+        <div class="supporter-slot">Your name here</div>
+        <div class="supporter-slot">Your name here</div>
+        <div class="supporter-slot">Your name here</div>
+        <div class="supporter-slot">Your name here</div>
+        <div class="supporter-slot">Your name here</div>
+        <div class="supporter-slot">Your name here</div>
+        <div class="supporter-slot">Your name here</div>
+      </div>
+      <p style="text-align:center; margin-top:2rem; font-size:0.9rem; color:#888;">
+        <a href="https://abernethyelementaryschool.betterworld.org/campaigns/general-pta-support" style="color:var(--orange); font-weight:700; text-decoration:none;" target="_blank" rel="noopener">Donate today</a> and join the wall.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-split">
+    <div class="cta-text">
+      <h2>Be our next partner.</h2>
+      <p>Family, business, neighbor, stranger who believes in public schools -- there's a place for you.</p>
+      <p class="dl">Before July 2026.</p>
+      <div class="cta-buttons">
+        <a href="https://abernethyelementaryschool.betterworld.org/campaigns/general-pta-support" class="w" target="_blank" rel="noopener">Donate Now</a>
+        <a href="mailto:hello@abernethy2125.org" class="o">Contact Us</a>
+      </div>
+    </div>
+    <div class="ph" style="min-height:400px;"><img src="images/bike-bus.png" alt="Abernethy bike bus"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <img src="images/logo.png" alt="Abernethy Elementary">
+    </div>
+    <div>
+      <p>Abernethy Elementary &middot; Portland, Oregon</p>
+      <p>501(c)(3) &middot; All donations tax-deductible</p>
+    </div>
+    <div>
+      <a href="https://abernethyelementaryschool.betterworld.org/campaigns/general-pta-support" target="_blank" rel="noopener">Donate on BetterWorld</a>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+  </script>
+
+</body>
+</html>
